@@ -5,7 +5,7 @@ const { matchedData } = require("express-validator");
 const getOrders=async(req,res)=>{
   try {
     const orders = await ordersModel.find().sort({createdAt:-1});
-    res.json({list:orders});
+    res.status(200).json({list:orders});
   } catch(err) {
     res.status(500).json({message:"Server Error"});
   }
@@ -28,27 +28,12 @@ const placeOrder=async(req,res)=>{
       status: "Order Received"
     });
 
-    res.json({orderId: newOrder._id,status: newOrder.status,totalAmount});
+    res.status(200).json({orderId: newOrder._id,status: newOrder.status,totalAmount});
   } catch(err) {
     res.status(500).json({message:"Server Error"});
   }
 };
 
-// // 3. Get single order by ID
-// const getOrderById=async(req,res)=>{
-//   try {
-//     const {orderId} = matchedData(req,{locations:['params']});
-
-//     const order = await ordersModel.findById(orderId);
-//     if (!order){
-//         return res.status(404).json({message:"Order not found"});
-//     } 
-//     res.json(order);
-
-//   } catch(err){
-//     res.status(500).json({message:"Server Error"});
-//   }
-// };
 
 // 3. Update order status
 const updateOrderStatus = async (req,res) => {
